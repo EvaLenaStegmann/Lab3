@@ -12,7 +12,6 @@ namespace Lab3
             bmp,
             unknown
         }
-        //static FileType fileType;
 
         static void Main(string[] args)
         {
