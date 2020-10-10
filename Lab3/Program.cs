@@ -6,8 +6,6 @@ namespace Lab3
 {
     class Program
     {
-        static Byte[] data;
-        static int[] resolution = new int[2];
         enum FileType
         {
             png,
@@ -18,6 +16,7 @@ namespace Lab3
 
         static void Main(string[] args)
         {
+            Byte[] data;
             int fileSize;
 
             if (args.Length > 0) 
@@ -33,19 +32,19 @@ namespace Lab3
                         fs.Close();
                     }
 
-                    fileType = GetFileType();
+                    fileType = GetFileType(data);
                     if (fileType == FileType.unknown)
                     {
                         Console.WriteLine("This is not a valid .bmp or.png file!");
                     }
                     else
                     {
-                        GetResolution();
+                        int[] resolution = GetResolution(data);
                         Console.WriteLine($"This is a .{fileType} image. Resolution: {resolution[0]}x{resolution[1]} pixels.");
 
                         if (fileType == FileType.png)
                         {
-                            PrintAllPngChunks();
+                            PrintAllPngChunks(data);
                         }
                     }
                 }
@@ -64,7 +63,7 @@ namespace Lab3
             }
         }
 
-        static FileType GetFileType()
+        static FileType GetFileType(Byte[] data)
         {
             string first8Bytes = "";
             string first2Bytes;
@@ -89,8 +88,9 @@ namespace Lab3
             }
         }
 
-        static void GetResolution()
+        static int[] GetResolution(Byte[] data)
         {
+            int[] resolution = new int[2];
             if (fileType == FileType.png)
             {
                 Byte[] bytes = new Byte[4] { data[19], data[18], data[17], data[16] };
@@ -114,10 +114,10 @@ namespace Lab3
                 resolution[1] = BitConverter.ToInt32(bytes, 0);
             }
 
-            return;
+            return resolution;
         }
 
-        static void PrintAllPngChunks()
+        static void PrintAllPngChunks(Byte[] data)
         {
             Console.WriteLine("");
 
