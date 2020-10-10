@@ -12,10 +12,11 @@ namespace Lab3
             bmp,
             unknown
         }
-        static FileType fileType;
+        //static FileType fileType;
 
         static void Main(string[] args)
         {
+            FileType fileType;
             Byte[] data;
             int fileSize;
 
@@ -39,7 +40,7 @@ namespace Lab3
                     }
                     else
                     {
-                        int[] resolution = GetResolution(data);
+                        int[] resolution = GetResolution(fileType, data);
                         Console.WriteLine($"This is a .{fileType} image. Resolution: {resolution[0]}x{resolution[1]} pixels.");
 
                         if (fileType == FileType.png)
@@ -88,7 +89,7 @@ namespace Lab3
             }
         }
 
-        static int[] GetResolution(Byte[] data)
+        static int[] GetResolution(FileType fileType, Byte[] data)
         {
             int[] resolution = new int[2];
             if (fileType == FileType.png)
